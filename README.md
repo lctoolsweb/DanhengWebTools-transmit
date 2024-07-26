@@ -10,7 +10,7 @@
 {
     "dispatchUrl": "http://127.0.0.1:443", ##DanhengServer服务器地址
     "adminKey": "db322d9c-b738-48a0-9194-94e81d82ee53", ##adminkey
-    "port": 54322 ##DanhengWebTools-transmit运行端口
+    "port": 54321 ##DanhengWebTools-transmit运行端口
   }
   
 ```
@@ -46,4 +46,22 @@ node api.js
         "message": "base64解码后的内容"
     }
 }
+```
+
+
+### 请求方式
+
+```
+--------------------------------------
+|                                    |
+|                                    |
+|             将参数转发给后端        |
+|                 ↕                   |
+|      前端⇋转发端⇋DanhengServer     |
+|          ↕                        |
+|  前端发送uid，command               |
+|                                    |
+|                                    |
+|                                    |
+--------------------------------------
 ```
