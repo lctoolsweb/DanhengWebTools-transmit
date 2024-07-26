@@ -35,3 +35,15 @@ node api.js
 | `keyType`   | `string` | 否       | `PEM`  | 密钥类型（`PEM` 或其他）       |
 | `uid`       | `string` | 是       | 无     | 目标用户的唯一标识             |
 | `command`   | `string` | 是       | 无     | 要执行的命令                   |
+
+#### 响应
+```
+{
+    "code": 0,
+    "message": "Success",
+    "data": {
+        "sessionId": "**************",
+        "message": "base64解码后的内容"
+    }
+}
+```
