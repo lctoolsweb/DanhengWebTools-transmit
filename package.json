@@ -1,10 +1,28 @@
 {
+  "name": "your-project-name",
+  "version": "1.0.0",
+  "main": "api.js",
+  "bin": "api.js",
+  "pkg": {
+    "scripts": [
+      "node_modules/**/*.js",
+      "config.json"
+    ],
+    "assets": [
+      "config.json"
+    ],
+    "targets": [
+      "node18-win-x64",
+      "node18-linux-x64"
+    ]
+  },
   "dependencies": {
     "axios": "^1.7.2",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
     "gradient-string": "^2.0.2",
     "js-encrypt": "^2.3.4",
     "jsencrypt": "^3.3.2",
