@@ -1,6 +1,6 @@
-{
-    "dispatchUrl": "http://192.0.0.1:443",
-    "adminKey": "dsa094ad-92333-4f0d-b185-fb45576291cb",
+
+  {
+    "dispatchUrl": "http://127.0.0.1",
+    "adminKey": "94ad-9263-4f0d-b185-fb45576291cb",
     "port": 54321
   }
-  

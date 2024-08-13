@@ -17,8 +17,9 @@ const config = require('./config.json');
 const dispatchUrl = config.dispatchUrl;
 const adminKey = config.adminKey;
 const PORT = config.port;
+const CURRENT_VERSION = '0.0.1';
 
-// 记录请求的中间件
+
 app.use((req, res, next) => {
   const start = Date.now();
   const { method, originalUrl } = req;
@@ -31,7 +32,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// 记录实际后端请求的中间件
+
 const logBackendRequest = async (req, res, next) => {
   const originalUrl = req.originalUrl;
   const method = req.method;
@@ -56,13 +57,7 @@ app.use('/muip', logBackendRequest);
 app.get('/get', (req, res) => {
   res.json({ success: true });
 });
-app.get('/watermark', (req, res) => {
-    res.json({
-        message1: '本项目是免费独立项目',
-        message2: '不会以任何形式收费',
-        message3: 'DanhengWebTools for Dreamplace'
-    });
-});
+
 app.post('/api/submit', customRateLimiter, async (req, res) => {
   const { keyType, uid, command } = req.body;
 
@@ -147,19 +142,35 @@ app.get('/api/status', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+async function checkVersion() {
+  try {
+    const response = await axios.get('https://pan.moraxs.cn/getlatestversion');
+    const latestVersion = response.data.latestTransmitVersion;
 
+    if (latestVersion > CURRENT_VERSION) {
+      logError('当前版本已过时，请前往https://github.com/lctoolsweb/DanhengWebTools-transmit更新。');
+      process.exit(1); 
+    } else {
+      logInfo('当前版本为最新版本，无需更新。');
+    }
+  } catch (error) {
+    logError(`检查版本更新失败: ${error.message}`);
+    process.exit(1); 
+  }
+}
+checkVersion().then(() => {
 const server = app.listen(PORT, '0.0.0.0', () => {
   logInfo(`Server is running on http://0.0.0.0:${PORT}`);
 });
 
-// 创建 WebSocket 服务器
+
 const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
   console.log('New client connected');
   ws.on('message', (message) => {
     console.log('Received WebSocket message:', message);
-    rl.write(message + '\n'); // 将消息传递给 readline 接口
+    rl.write(message + '\n'); 
   });
 
   ws.on('close', () => {
@@ -167,7 +178,7 @@ wss.on('connection', (ws) => {
   });
 });
 
-// 重写 console.log，将日志发送到 WebSocket 客户端
+
 const originalConsoleLog = console.log;
 console.log = (...args) => {
   originalConsoleLog.apply(console, args);
@@ -179,7 +190,7 @@ console.log = (...args) => {
   });
 };
 
-// 设置 readline 接口
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
@@ -221,3 +232,4 @@ rl.on('line', async (input) => {
     logError('Invalid input. Use format: command:\'command_text\' uid:\'uid_text\'');
   }
 });
+})
