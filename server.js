@@ -155,7 +155,7 @@ async function checkVersion() {
     }
   } catch (error) {
     logError(`检查版本更新失败: ${error.message}`);
-    process.exit(1); 
+    
   }
 }
 checkVersion().then(() => {
